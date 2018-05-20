@@ -12,7 +12,7 @@ include(conan)
 add_definitions(-DFOO)
 
 option(STORMLIBCXX_BUILD_TESTS "Build test programs" OFF)
-option(STORMLIBCXX_BUILD_EXAMPLES "Build test programs" OFF)
+option(STORMLIBCXX_BUILD_EXAMPLE "Build example programs" OFF)
 option(STORMLIBCXX_STATIC_RUNTIMES "Link stl statically" OFF)
 
 if( ${STORMLIBCXX_STATIC_RUNTIMES} )
@@ -61,6 +61,17 @@ install(TARGETS ${PROJECT_NAME}
 	FRAMEWORK DESTINATION /Library/Frameworks
 	PUBLIC_HEADER DESTINATION include/${PROJECT_NAME}
 	INCLUDES DESTINATION include/${PROJECT_NAME})
+
+if( STORMLIBCXX_BUILD_EXAMPLE )
+	add_executable(${PROJECT_NAME}Example example/main.cpp)
+
+	target_link_libraries(${PROJECT_NAME}Example
+		${PROJECT_NAME}
+	)
+
+	install(TARGETS ${PROJECT_NAME}Example
+			DESTINATION ".")
+endif()
 
 #############################################
 # Unit tests
